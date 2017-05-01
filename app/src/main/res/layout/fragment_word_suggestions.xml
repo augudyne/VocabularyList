@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="vocabularylist.projects.austin.vocabularylist.WordSuggestionsFragment"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:background="#ffbecacd">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/sgtWordDisplay"
+        android:layout_weight="0.04" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/suggestionsDisplay"
+        android:layout_weight="0.04"
+        android:background="#ffcdd9dc" />
+</LinearLayout>
