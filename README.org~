@@ -1,0 +1,13 @@
+
+* Vocabulary List
+  A Vocabulary List that allows user to type a word, and automatically fetch definition from Webster API. Allows offline list and viewing.
+** Feature
+*** User Experience: Type a word to add to my Vocabulary List. Get, save, and show me the definition of the word.
+    Simply add the word you want. Queries the Merriam-Webster API for a match. If it is found, it will add the word to the database (vocabulary list) and produce the word's info fragment, adding the main screen to the backStack
+Get Suggestions from Webster.
+*** User Experience: If I mispell a word when adding it, try and get me word suggestions that I can easily confirm and add.
+    If the word is not found, it will present a new fragment of 'word suggestions' offered by Marriam-Webster API. Selecting a word will prompt a confirmation dialog box to add the word, returning you to the mainScreen and displays the word's info page fragment.
+*** User Experience: Sometimes I don't have internet, I want it to automatically save the word for me to add later if no internet is detected.
+    If the URL is not found (bad HTTP connection a.k.a. students can't afford data plans), it will add the word to an "offline list". This can be accessed through the default menu dialog in the top right corner. When a word is selected from the offline list, it will go through the same control flow as a normal word addition (by leveraging the same singleton IO provider written for [1]). If it succesfully adds the last word in the "offline list", it will force popBackstack() back to the mainScreen.
+*** User Experience: I want to be able to backup my offline database, which can be transferred and loaded to VocabularyList on a seperate device.
+    As a backup (because I sometimes debug by running it on my phone, and I also use the app regularly so wiping the database is a real concern), it is possible to export the entire JSON database (as it is stored) via a SendText intent - works with any native E-mail/Messaging app.

@@ -2,14 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vocabularylist.projects.austin.vocabularylist" >
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainScreen"
             android:label="@string/app_name" >
@@ -19,13 +16,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:process=":remote" android:name=".wordofday.WordOfTheDayReceiver"/>
-        <receiver android:name=".wordofday.DeviceBootReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>
-        </receiver>
+
     </application>
 
 </manifest>

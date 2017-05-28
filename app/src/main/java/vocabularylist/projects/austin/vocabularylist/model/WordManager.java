@@ -5,8 +5,6 @@ import android.os.SystemClock;
 
 import java.util.*;
 
-import vocabularylist.projects.austin.vocabularylist.providers.DatabaseIO;
-
 /**
  * Created by Austin on 2016-12-21.
  * Using singleton design pattern
@@ -18,16 +16,9 @@ public class WordManager implements Iterable<Word> {
     private Map<String, Word> wordList = new TreeMap<>();
     private List<String> offlineWords = new ArrayList<>();
 
-    public static WordManager getInstance(){
-        if(instance == null){
-            instance = new WordManager();
-        }
-        return instance;
-    }
 
-    public ArrayList<String> getOfflineWords() {
-        //return a copy of the offline words
-        return new ArrayList<>(offlineWords);
+    public List<String> getOfflineWords() {
+        return Collections.unmodifiableList(offlineWords);
     }
 
     public void addToOfflineWords(String word){
@@ -36,25 +27,22 @@ public class WordManager implements Iterable<Word> {
         }
     }
 
-    public void removeOfflineWord(String word){
-        offlineWords.remove(word);
-    }
-
     public void clearOfflineWords(){
         offlineWords.clear();
     }
-
     public WordManager() {
+
     }
 
-
+    public static WordManager getInstance(){
+        if(instance == null){
+            instance = new WordManager();
+        }
+        return instance;
+    }
 
     public void addWord(Word w) {
         wordList.put(w.getTopLevelName(), w);
-        System.out.println("Added word: " + w.getTopLevelName());
-        if(offlineWords.contains(w.getTopLevelName())){
-            offlineWords.remove(w.getTopLevelName());
-        }
     }
 
     public void removeWord(Word w){
@@ -93,7 +81,7 @@ public class WordManager implements Iterable<Word> {
 
     public Word getRandomWord() {
         Random random = new Random(SystemClock.currentThreadTimeMillis());
-        int random_int = Math.abs(random.nextInt());
+        int random_int = random.nextInt();
         random_int = random_int % wordList.size();
         return (Word) wordList.values().toArray()[random_int];
     }

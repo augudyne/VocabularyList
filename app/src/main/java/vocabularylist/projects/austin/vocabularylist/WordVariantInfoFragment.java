@@ -65,12 +65,9 @@ public class WordVariantInfoFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_word_variant_info, container, false);
-        TextView titleDisplay = (TextView) v.findViewById(R.id.wordVariantTitle);
-        TextView definitionDisplay = (TextView) v.findViewById(R.id.wordVariantDisplay);
+        TextView wordDisplay = (TextView) v.findViewById(R.id.wordVariantDisplay);
 
-        titleDisplay.setText(variant.getValue() + " - " + variant.getPartOfSpeech());
-
-        definitionDisplay.setText(variant.definitionsToString());
+        wordDisplay.setText(variant.toString());
 
         return v;
     }

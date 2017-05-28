@@ -43,17 +43,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
         }
 
         Word word = objects.get(position);
-        StringBuilder sb = new StringBuilder();
-        List<WordVariant> wordVariants = word.getWordVariants();
-        for(int i = 0; i < wordVariants.size() && i < 3; i++){
-            WordVariant wv = wordVariants.get(i);
-            sb.append("[" + (i+1) + "] " + wv.getValue().replaceAll("[\\d\\[\\]]", "") + " - " + wv.getPartOfSpeech());
-            if(i + 1 < wordVariants.size() && i+1 < 3){
-                sb.append(", ");
-            }
-        }
         holder.top.setText(word.getTopLevelName());
-        holder.bottom.setText(sb.toString());
 
         return row;
     }
