@@ -84,10 +84,12 @@ public class WordInfoFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.addToBackStack(null);
-                System.out.println(getActivity().getSupportFragmentManager().getBackStackEntryCount());
-                ft.replace(R.id.fragment_container, WordVariantInfoFragment.newInstance((WordVariant) la.getItem(position))).commit();
+                System.out.println(getActivity().getFragmentManager().getBackStackEntryCount());
+                ft.replace(R.id.fragment, WordVariantInfoFragment.newInstance((WordVariant) la.getItem(position))).commit();
             }
         });
+
+
         return v;
     }
 

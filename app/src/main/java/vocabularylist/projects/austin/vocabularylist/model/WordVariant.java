@@ -41,7 +41,7 @@ public class WordVariant implements Cloneable, Serializable{
     }
 
     public String getValue() {
-        return value.replaceAll("[\\d\\[\\]]", "");
+        return value;
     }
 
     public String getPartOfSpeech() {
@@ -77,10 +77,9 @@ public class WordVariant implements Cloneable, Serializable{
 
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder(value.replaceAll("[\\[\\]\\d]", ""));
-        sb.append(" : ");
+        StringBuilder sb = new StringBuilder(value + "\n");
         sb.append(partOfSpeech);
-        sb.append("\n\n");
+        sb.append("\n");
         int x = 1;
         for(String s: definitions){
             sb.append(x);
@@ -90,16 +89,6 @@ public class WordVariant implements Cloneable, Serializable{
             x++;
         }
 
-        return sb.toString();
-    }
-
-    public String definitionsToString(){
-        StringBuilder sb = new StringBuilder();
-        int x = 1;
-        for(String s: definitions){
-            sb.append("[" + x + "]. " + s + "\n\n");
-            x++;
-        }
         return sb.toString();
     }
 }

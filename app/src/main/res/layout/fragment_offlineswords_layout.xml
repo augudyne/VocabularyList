@@ -2,14 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="vocabularylist.projects.austin.vocabularylist.OfflineWordsFragment"
-    android:background="#ffd7dcff">
+    tools:context="vocabularylist.projects.austin.vocabularylist.OfflineWordsFragment">
 
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/offlineWordsListView"
-        android:layout_gravity="center"
-        android:layout_margin="10dp" />
+    <GridView android:id="@android:id/list" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:numColumns="2" />
+
+    <TextView android:id="@android:id/empty" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:gravity="center" />
 
 </FrameLayout>

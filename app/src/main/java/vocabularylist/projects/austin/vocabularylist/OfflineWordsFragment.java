@@ -1,33 +1,22 @@
 package vocabularylist.projects.austin.vocabularylist;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
-import vocabularylist.projects.austin.vocabularylist.model.Word;
-import vocabularylist.projects.austin.vocabularylist.model.WordManager;
-import vocabularylist.projects.austin.vocabularylist.providers.DatabaseIO;
-import vocabularylist.projects.austin.vocabularylist.providers.DefinitionParser;
+import vocabularylist.projects.austin.vocabularylist.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.
@@ -44,6 +33,8 @@ public class OfflineWordsFragment extends Fragment implements WordInfoFragment.O
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String WORD_LIST = "param1";
 
+    // TODO: Rename and change types of parameters
+    private ArrayList<String> paramStringList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -56,7 +47,7 @@ public class OfflineWordsFragment extends Fragment implements WordInfoFragment.O
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ArrayAdapter<String> offlineWordsAdapter;
+    private ListAdapter offlineWordsAdapter;
 
     public static OfflineWordsFragment newInstance(ArrayList<String> param1) {
         OfflineWordsFragment fragment = new OfflineWordsFragment();
@@ -76,15 +67,28 @@ public class OfflineWordsFragment extends Fragment implements WordInfoFragment.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            paramStringList = getArguments().getStringArrayList(WORD_LIST);
+        }
+
+        // TODO: Change Adapter to display your content
+        offlineWordsAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<String>());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_offlineswords_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_offlinewords, container, false);
 
+        // Set the adapter
+        mListView = (AbsListView) view.findViewById(android.R.id.list);
+        ((AdapterView<ListAdapter>) mListView).setAdapter(offlineWordsAdapter);
 
-        setupList(view);
+        // Set OnItemClickListener so we can be notified on item clicks
+        mListView.setOnItemClickListener(null);  //TODO
+
         return view;
     }
 
@@ -138,59 +142,5 @@ public class OfflineWordsFragment extends Fragment implements WordInfoFragment.O
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
-
-    void setupList(View v){
-        WordManager wm = WordManager.getInstance();
-        offlineWordsAdapter = new OfflineWordsAdapter(getActivity(),
-                R.layout.offline_listview_row, wm.getOfflineWords());
-        System.out.println("Offline Words: " + wm.getOfflineWords().toString());
-        final ListView offlineWordsList = (ListView) v.findViewById(R.id.offlineWordsListView);
-        offlineWordsList.setAdapter(offlineWordsAdapter);
-        //offlineWordsAdapter.notifyDataSetChanged();
-        offlineWordsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedString = offlineWordsAdapter.getItem(position);
-                DefinitionParser df = new DefinitionParser(getActivity(), selectedString);
-                DatabaseIO.getInstance(getActivity()).writeDatabaseToFile();
-                df.execute(offlineWordsAdapter);
-            }
-
-        });
-        offlineWordsList.setLongClickable(true);
-
-        offlineWordsList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Confirm Delete Word");
-                final int pos = position;
-                final TextView confirmMessage = new TextView(getActivity());
-                builder.setView(confirmMessage);
-                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String wordToDelete = offlineWordsAdapter.getItem(pos);
-                        WordManager.getInstance().removeOfflineWord(wordToDelete);
-                        offlineWordsAdapter.remove(wordToDelete);
-                        offlineWordsAdapter.notifyDataSetChanged();
-                        DatabaseIO.getInstance(getActivity()).writeDatabaseToFile();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
-
-                return true;
-            }
-        });
-
-    }
-
-
 
 }

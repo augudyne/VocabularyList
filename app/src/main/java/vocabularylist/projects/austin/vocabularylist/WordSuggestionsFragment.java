@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +16,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
-import vocabularylist.projects.austin.vocabularylist.providers.DefinitionParser;
+import vocabularylist.projects.austin.vocabularylist.parsers.DefinitionParser;
 
 
 /**
@@ -104,9 +108,9 @@ public class WordSuggestionsFragment extends Fragment {
                 builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DefinitionParser dp = new DefinitionParser(getActivity(), selectedWord);
-                        dp.execute((ArrayAdapter) ((ListView) getActivity().findViewById(R.id.suggestionsDisplay)).getAdapter());
-                        //FragmentManager ft = getActivity().getSupportFragmentManager();
+                        DefinitionParser df = new DefinitionParser(getActivity(), selectedWord);
+                        df.execute((ArrayAdapter) ((ListView) getActivity().findViewById(R.id.listView)).getAdapter());
+                        FragmentManager ft = getActivity().getSupportFragmentManager();
                     }
                 });
                 builder.show();
